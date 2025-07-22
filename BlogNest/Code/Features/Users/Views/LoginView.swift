@@ -4,67 +4,81 @@ struct LoginView: View {
     @StateObject private var viewModel = LoginViewModel()
 
     var body: some View {
-        ZStack {
-            // Background Image
-            Image("LoginBG")
-                .resizable()
-                .scaledToFill()
-                .edgesIgnoringSafeArea(.all)
-
-            VStack(spacing: 20) {
-                // Logo
-                Image("logo")
+        NavigationStack {
+            ZStack {
+                Image("LoginBG")
                     .resizable()
-                    .frame(width: 250, height: 250)
-                    .clipShape(Circle()) // Optional: Make it circular
+                    .scaledToFill()
+                    .ignoresSafeArea()
 
-                // Login Title
-                Text("Login")
-                    .font(.largeTitle)
-                    .bold()
-                    .foregroundColor(.white) // for better contrast
+                Color.black.opacity(0.4)
+                    .ignoresSafeArea()
 
-                // Email Field
-                TextField("Email", text: $viewModel.email)
-                    .autocapitalization(.none)
-                    .padding()
-                    .background(.ultraThinMaterial) // Translucent blur
-                    .cornerRadius(10)
-                    .overlay( // Optional border
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.white.opacity(34.259), lineWidth: 1)
-                    )
+                VStack(spacing: 24) {
+                    Image("logo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 250, height: 250)
+                        .clipShape(Circle())
+                        .shadow(radius: 10)
 
+                    Text("Login")
+                        .font(.system(size: 32, weight: .bold, design: .rounded))
+                        .foregroundColor(.white)
 
-                // Password Field
-                SecureField("Password", text: $viewModel.password)
-                    .padding()
-                    .background(.ultraThinMaterial)
-                    .cornerRadius(10)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.white.opacity(34.259), lineWidth: 1)
-                    )
+                    Group {
+                        TextField("Email", text: $viewModel.email)
+                            .keyboardType(.emailAddress)
+                            .autocapitalization(.none)
+                            .padding()
+                            .background(.ultraThinMaterial)
+                            .cornerRadius(12)
 
-                // Loading Indicator or Login Button
-                if viewModel.isLoading {
-                    ProgressView()
-                } else {
-                    Button("Login") {
-                        viewModel.login()
+                        SecureField("Password", text: $viewModel.password)
+                            .padding()
+                            .background(.ultraThinMaterial)
+                            .cornerRadius(12)
                     }
-                    .buttonStyle(.borderedProminent)
-                }
 
-                // Error Message
-                if let error = viewModel.errorMessage {
-                    Text(error)
-                        .foregroundColor(.red)
-                        .padding(.top)
+                    if viewModel.isLoading {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                    } else {
+                        Button(action: viewModel.login) {
+                            Text("Log In")
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.white.opacity(0.75))
+                                .foregroundColor(.black)
+                                .cornerRadius(12)
+                        }
+                    }
+
+                    if let error = viewModel.errorMessage {
+                        Text(error)
+                            .foregroundColor(.red)
+                            .font(.caption)
+                            .padding(.top, 8)
+                            .multilineTextAlignment(.center)
+                    }
+
+                    HStack {
+                        Text("Don't have an account?")
+                            .foregroundColor(.white.opacity(0.8))
+                            .font(.footnote)
+
+                        NavigationLink(destination: SignupView()) {
+                            Text("Sign Up")
+                                .foregroundColor(.white)
+                                .font(.footnote.weight(.semibold))
+                        }
+                    }
                 }
+                .padding(.horizontal, 120)
             }
-            .padding(.horizontal, 100) // Apply horizontal padding to the whole VStack
-                    .padding(.top, 5)
+            .navigationDestination(isPresented: $viewModel.isLoggedIn) {
+                BlogHomeView()
+            }
         }
     }
 }

@@ -5,6 +5,7 @@ class LoginViewModel: ObservableObject {
     @Published var password: String = ""
     @Published var errorMessage: String?
     @Published var isLoading: Bool = false
+    @Published var isLoggedIn = false
 
     private let authService = AuthService()
 
@@ -19,7 +20,11 @@ class LoginViewModel: ObservableObject {
                 switch result {
                 case .success(let response):
                     print("Login success: \(response)")
-                    // Handle login success (e.g., navigate to dashboard)
+                    
+                    // Optionally store the token or user data here
+                    // Example: UserDefaults.standard.set(response.token, forKey: "authToken")
+
+                    self?.isLoggedIn = true // <- Trigger navigation
                 case .failure(let error):
                     self?.errorMessage = error.localizedDescription
                 }
