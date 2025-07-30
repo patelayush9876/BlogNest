@@ -27,13 +27,16 @@ class BlogHomeViewModel: ObservableObject {
 
                 switch result {
                 case .success(let response):
+                    // --- THE FIX IS HERE ---
+                    // Access blogs through the 'data' property of the response
                     if self?.currentPage == 1 {
-                        self?.blogs = response.blogs
+                        self?.blogs = response.data.blogs // Corrected: response.data.blogs
                     } else {
-                        self?.blogs.append(contentsOf: response.blogs)
+                        self?.blogs.append(contentsOf: response.data.blogs) // Corrected: response.data.blogs
                     }
+                    // Also update total and limit based on the nested data
                     self?.currentPage += 1
-                    self?.canLoadMore = response.blogs.count == self?.limit
+                    self?.canLoadMore = response.data.blogs.count == self?.limit // Corrected: response.data.blogs.count
                 case .failure(let error):
                     self?.errorMessage = error.localizedDescription
                 }
