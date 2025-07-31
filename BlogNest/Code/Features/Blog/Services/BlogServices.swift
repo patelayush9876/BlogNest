@@ -2,8 +2,7 @@ import Foundation
 
 class BlogService {
     static let shared = BlogService()
-    // Changed baseURL to the common prefix: /api/v1
-    private let baseURL = "http://localhost:3000/api/v1" // <--- CHANGE HERE
+    private let baseURL = "http://localhost:3000/api/v1"
 
     private func createRequest(url: URL, method: String, body: Data? = nil, token: String? = nil) -> URLRequest {
         var request = URLRequest(url: url)
@@ -18,7 +17,7 @@ class BlogService {
 
     func fetchAllBlogs(page: Int = 1, limit: Int = 10, search: String = "", completion: @escaping (Result<BlogResponse, Error>) -> Void) {
         // Construct the full path as "/blogs/blog" relative to the baseURL
-        guard var components = URLComponents(string: "\(baseURL)/blogs/blogs") else { // <--- CHANGE HERE
+        guard var components = URLComponents(string: "\(baseURL)/blogs/blogs") else {
             completion(.failure(URLError(.badURL)))
             return
         }
