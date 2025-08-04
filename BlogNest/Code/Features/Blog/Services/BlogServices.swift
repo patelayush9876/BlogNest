@@ -16,7 +16,6 @@ class BlogService {
     }
 
     func fetchAllBlogs(page: Int = 1, limit: Int = 10, search: String = "", completion: @escaping (Result<BlogResponse, Error>) -> Void) {
-        // Construct the full path as "/blogs/blog" relative to the baseURL
         guard var components = URLComponents(string: "\(baseURL)/blogs/blogs") else {
             completion(.failure(URLError(.badURL)))
             return
@@ -64,14 +63,8 @@ class BlogService {
         }.resume()
     }
 
-    // You will also need to update the URLs for other functions if they follow a similar pattern.
-    // For example:
-
     func fetchBlogById(id: String, completion: @escaping (Result<Blog, Error>) -> Void) {
-        // Assuming single blog by ID is /api/v1/blog/:id or /api/v1/blogs/:id
-        // Based on your get all path /api/v1/blogs/blog, a single blog might be /api/v1/blogs/:id or /api/v1/blog/:id
-        // Let's assume the common REST pattern /api/v1/blogs/:id for now. Adjust if your API is different.
-        guard let url = URL(string: "\(baseURL)/blogs/\(id)") else { // <--- Potentially CHANGE HERE depending on your actual API structure for single blog
+        guard let url = URL(string: "\(baseURL)/blogs/\(id)") else {
             completion(.failure(URLError(.badURL)))
             return
         }
@@ -108,9 +101,7 @@ class BlogService {
     }
 
     func createBlog(title: String, content: String, tags: [String], token: String, completion: @escaping (Result<Blog, Error>) -> Void) {
-        // Assuming create blog is /api/v1/blogs/blog or /api/v1/blogs
-        // Sticking to /api/v1/blogs/blog as it's consistent with your fetch all.
-        guard let url = URL(string: "\(baseURL)/blogs/blog") else { // <--- Potentially CHANGE HERE
+        guard let url = URL(string: "\(baseURL)/blogs/blog") else {
             completion(.failure(URLError(.badURL)))
             return
         }
@@ -154,9 +145,7 @@ class BlogService {
     }
 
     func updateBlog(id: String, updateData: [String: Any], token: String, completion: @escaping (Result<Blog, Error>) -> Void) {
-        // Assuming update blog is /api/v1/blogs/:id or /api/v1/blog/:id
-        // Sticking to /api/v1/blogs/:id for consistency with fetchBlogById
-        guard let url = URL(string: "\(baseURL)/blogs/\(id)") else { // <--- Potentially CHANGE HERE
+        guard let url = URL(string: "\(baseURL)/blogs/\(id)") else {
             completion(.failure(URLError(.badURL)))
             return
         }
@@ -198,9 +187,7 @@ class BlogService {
     }
 
     func deleteBlog(id: String, token: String, completion: @escaping (Result<Void, Error>) -> Void) {
-        // Assuming delete blog is /api/v1/blogs/:id or /api/v1/blog/:id
-        // Sticking to /api/v1/blogs/:id for consistency with fetchBlogById
-        guard let url = URL(string: "\(baseURL)/blogs/\(id)") else { // <--- Potentially CHANGE HERE
+        guard let url = URL(string: "\(baseURL)/blogs/\(id)") else {
             completion(.failure(URLError(.badURL)))
             return
         }
@@ -230,9 +217,7 @@ class BlogService {
     }
 
     func fetchMyBlogs(token: String, completion: @escaping (Result<BlogResponse, Error>) -> Void) {
-        // Assuming fetch my blogs is /api/v1/blogs/my or /api/v1/blog/my
-        // Let's assume /api/v1/blogs/my for now.
-        guard let url = URL(string: "\(baseURL)/blogs/my") else { // <--- Potentially CHANGE HERE
+        guard let url = URL(string: "\(baseURL)/blogs/my") else {
             completion(.failure(URLError(.badURL)))
             return
         }

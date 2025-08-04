@@ -6,7 +6,7 @@ struct LoginView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Image("LoginBG")
+                Image("bg2")
                     .resizable()
                     .scaledToFill()
                     .ignoresSafeArea()
@@ -77,7 +77,8 @@ struct LoginView: View {
                 .padding(.horizontal, 120)
             }
             .navigationDestination(isPresented: $viewModel.isLoggedIn) {
-                BlogHomeView()
+//                BlogHomeView()
+                Tabs()
             }
         }
     }

@@ -6,14 +6,15 @@ struct Tabs: View {
     var body: some View {
         TabView(selection: $selectedTab) {
             VStack {
-                Text("Welcome Home!")
-                    .font(.largeTitle)
-                    .padding()
-                Image(systemName: "house.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 100, height: 100)
-                    .foregroundColor(.blue)
+//                Text("Welcome Home!")
+//                    .font(.largeTitle)
+//                    .padding()
+//                Image(systemName: "house.fill")
+//                    .resizable()
+//                    .scaledToFit()
+//                    .frame(width: 100, height: 100)
+//                    .foregroundColor(.blue)
+                BlogHomeView()
             }
             .tabItem {
                 Label("Home", systemImage: "house.fill")
